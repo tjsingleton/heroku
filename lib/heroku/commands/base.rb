@@ -14,9 +14,13 @@ module Heroku::Command
       @autodetected_app = false
     end
 
-    def confirm(message="Are you sure you wish to continue? (y/n)?")
-      display("#{message} ", false)
-      ask.downcase == 'y'
+    def confirm
+      confirmed_app = extract_option('--confirm', false)
+      unless confirmed_app == app
+        raise(CommandFailed, "Add '--confirm #{app}' to execute this command.")
+      else
+        display("Command confirmed for #{app}. Proceeding.")
+      end
     end
 
     def format_date(date)

@@ -68,7 +68,7 @@ Patches contributed by:
 * Noah Zoschke
 * Pedro Belo
 * Peter Thiell
-
+* Peter van Hardenberg
 
 Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
 <http://github.com/heroku/heroku>
