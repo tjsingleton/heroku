@@ -14,8 +14,9 @@ module Heroku::Command
       @autodetected_app = false
     end
 
-    def confirm
+    def confirm(message="This command requires confirmation.")
       confirmed_app = extract_option('--confirm', false)
+      display message
       unless confirmed_app == app
         raise(CommandFailed, "Add '--confirm #{app}' to execute this command.")
       else
