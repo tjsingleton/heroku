@@ -9,7 +9,7 @@ module Heroku::Command
 
       display("Warning: Data in the app '#{app}' will be overwritten and will not be recoverable.")
 
-      if extract_option("--force") || confirm
+      if confirm_command
         taps_client(:push, opts)
       end
     end
@@ -20,7 +20,7 @@ module Heroku::Command
 
       display("Warning: Data in the database '#{opts[:database_url]}' will be overwritten and will not be recoverable.")
 
-      if extract_option("--force") || confirm
+      if confirm_command
         taps_client(:pull, opts)
       end
     end
@@ -31,7 +31,7 @@ module Heroku::Command
 
       display("Warning: All data in the '#{app}' database will be erased and will not be recoverable.")
 
-      if confirm
+      if confirm_command
         heroku.database_reset(app)
         display "Database reset for '#{app}' (#{url})"
       end
