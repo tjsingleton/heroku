@@ -64,6 +64,27 @@ module Heroku::Command
       end
     end
 
+    def display_config_changes(old_config)
+      config = heroku.config_vars(app)
+      changes = (config.keys + old_config.keys).inject({}) do |memo, key|
+        unless config[key] == old_config[key]
+          memo[key] = [old_config[key], config[key]]
+        end
+        memo
+      end
+
+      if changes.empty?
+        display "(No changes were made to your application's environment.)"
+      else
+        display "---"
+        display "Changes to your application environment:"
+        changes.each do |(key, (was, became))|
+          display("  - #{key}=>#{was}") if was
+          display("  + #{key}=>#{became}") if became
+        end
+      end
+    end
+
     def git_remotes(base_dir)
       git_config = "#{base_dir}/.git/config"
       unless File.exists?(git_config)

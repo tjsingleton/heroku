@@ -44,22 +44,30 @@ module Heroku::Command
         end
       end
 
+      original_config = heroku.config_vars(app)
       display "Adding #{addon} to #{app}... ", false
       display addon_run { heroku.install_addon(app, addon, config) }
+      display_config_changes(original_config)
     end
 
     def remove
+      confirm_command
+
+      original_config = heroku.config_vars(app)
       args.each do |name|
         display "Removing #{name} from #{app}... ", false
         display addon_run { heroku.uninstall_addon(app, name) }
       end
+      display_config_changes(original_config)
     end
 
     def clear
+      original_config = heroku.config_vars(app)
       heroku.installed_addons(app).each do |addon|
         display "Removing #{addon['description']} from #{app}... ", false
         display addon_run { heroku.uninstall_addon(app, addon['name']) }
       end
+      display_config_changes(original_config)
     end
 
     def confirm_billing
